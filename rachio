@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require './rachio_client'
+
+key = ARGV[0]
+
+action = ARGV[1].dup
+action.downcase! if action.kind_of? String
+
+unless key.kind_of?(String) && !key.empty? && %w{on off}.include?(action)
+	puts "Usage: rachio [api_key] [on|off]"
+	exit(1)
+end
+
+r = RachioClient.new(key)
+
+case action
+when 'on'
+	r.on
+when 'off'
+	r.off
+end
